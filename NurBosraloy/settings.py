@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'cloudinary',
     'sharee',
     'products',
+    'bag',
 ]
 
 MIDDLEWARE = [
