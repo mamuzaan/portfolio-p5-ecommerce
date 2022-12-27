@@ -111,8 +111,6 @@ AUTHENTICATION_BACKENDS = [
 
 SITE_ID = 1
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
@@ -224,4 +222,15 @@ STRIPE_CURRENCY = 'usd'
 STRIPE_PUBLIC_KEY = os.getenv('STRIPE_PUBLIC_KEY', 'pk_test_51MHFZOEWDx4DyypYNboQwCU4Gf1KqTYgHZshROcIf8jq9poUW6FDh4d20o3BEMwpJz2Ut5gdlDbjv92ddLsM9rja00fg0Cw4k5')
 STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY', 'sk_test_51MHFZOEWDx4DyypYzgiIS62O8Vs554gXwJtyJObwSqXHlOHka4VWH1tba98ZuEeXWfXAc0iOOn6SXPZnOKqHsJdt007JLQYi7h')
 STRIPE_WH_SECRET = os.getenv('STRIPE_WH_SECRET', 'whsec_96KS3JOACktbWCgPGU1QW4PIJQgGCcJc')
-DEFAULT_FORM_EMAIL = 'nurbosraloy@example.com'
+
+if 'DEVELOPMENT' in os.environ:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+    DEFAULT_FORM_EMAIL = 'nurbosraloy@example.com'
+else:
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_USE_TLS = True
+    EMAIL_PORT = 587
+    EMAIL_HOST = 'smtp.gmail.com'
+    EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+    EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASS')
+    DEFAULT_FROM_EMAIL = os.environ.get('EMAIL_HOST_USER')
